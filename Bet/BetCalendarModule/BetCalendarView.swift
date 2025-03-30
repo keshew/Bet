@@ -97,8 +97,6 @@ struct BetCalendarView: View {
                                     .padding(.bottom)
                                 }
                             }
-//                            .frame(width: geometry.size.width,
-//                                   height: geometry.size.height * 0.437)
                             
                             if betCalendarModel.events2.isEmpty {
                                 NoToday(geometry: geometry, action: {
@@ -125,6 +123,8 @@ struct BetCalendarView: View {
                                                     .frame(width: geometry.size.height * 0.0513,
                                                            height: geometry.size.height * 0.0513)
                                             }
+                                            .opacity(UserDefaultsManager().isGuest() ? 0.5 : 1)
+                                            .disabled(UserDefaultsManager().isGuest() ? true : false)
                                         }
                                         .padding(.horizontal, geometry.size.width * 0.05)
                                         .padding(.top)

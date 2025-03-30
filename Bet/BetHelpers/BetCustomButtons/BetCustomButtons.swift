@@ -368,6 +368,8 @@ struct NoToday: View {
                             .resizable()
                             .frame(width: 40, height: 40)
                     }
+                    .opacity(UserDefaultsManager().isGuest() ? 0.5 : 1)
+                    .disabled(UserDefaultsManager().isGuest() ? true : false)
                 }
                 .padding(.horizontal, 20)
                 .padding(.top)

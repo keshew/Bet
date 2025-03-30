@@ -10,6 +10,7 @@ struct BetApp: App {
             } else {
                 BetSignInView()
                     .onAppear {
+                        UserDefaultsManager().quitQuest()
                         notificationManager.requestPermission { granted in
                         }
                     }

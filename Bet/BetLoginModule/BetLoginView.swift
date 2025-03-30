@@ -100,6 +100,26 @@ struct BetLoginView: View {
                             }
                         }
                         
+                        Button(action: {
+                            UserDefaultsManager().enterAsGuest()
+                            if UserDefaultsManager().isFirstLaunch() {
+                                betLoginModel.isOnb = true
+                            } else {
+                                betLoginModel.isTab = true
+                            }
+                        }) {
+                            ZStack {
+                                Rectangle()
+                                    .fill(Color(red: 212/255, green: 221/255, blue: 231/255))
+                                    .frame(height: 56)
+                                    .cornerRadius(12)
+                                    .padding(.horizontal, 15)
+                                
+                                Text("Continue as a guest")
+                                    .Pop(size: 16)
+                            }
+                        }
+                        
                         Spacer(minLength: geometry.size.height * 0.36)
                         
                         HStack {

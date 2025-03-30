@@ -8,6 +8,8 @@ class BetSignInViewModel: ObservableObject {
     @Published var showErrorAlert = false
     @Published var alertMessage = ""
     @Published var isLog = false
+    @Published var isTab = false
+    @Published var isOnb = false
     
     func register() -> Bool {
         guard !name.isEmpty else {

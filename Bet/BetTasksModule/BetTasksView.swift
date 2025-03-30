@@ -64,6 +64,8 @@ struct BetTasksView: View {
                                             .Pop(size: 16)
                                     }
                                 }
+                                .opacity(UserDefaultsManager().isGuest() ? 0.5 : 1)
+                                .disabled(UserDefaultsManager().isGuest() ? true : false)
                                 
                                 Color(.clear)
                                     .frame(height: 60)

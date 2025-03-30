@@ -34,10 +34,10 @@ struct BetProfileView: View {
                             
                             HStack {
                                 VStack(alignment: .leading) {
-                                    Text("\(UserDefaultsManager().getNickname(for: UserDefaultsManager().getEmail() ?? "Name") ?? "Name")")
+                                    Text(UserDefaultsManager().isGuest() ? "Guest" : "\(UserDefaultsManager().getNickname(for: UserDefaultsManager().getEmail() ?? "Name") ?? "Name")")
                                         .PopBold(size: 16)
                                     
-                                    Text("\(UserDefaultsManager().getEmail() ?? "Name")")
+                                    Text(UserDefaultsManager().isGuest() ? "Guest" : "\(UserDefaultsManager().getEmail() ?? "Name")")
                                         .Pop(size: 14)
                                 }
                                 
@@ -50,6 +50,8 @@ struct BetProfileView: View {
                                         .resizable()
                                         .frame(width: 16, height: 16)
                                 }
+                                .opacity(UserDefaultsManager().isGuest() ? 0.5 : 1)
+                                .disabled(UserDefaultsManager().isGuest() ? true : false)
                                 
                             }
                             .padding(.horizontal)
@@ -90,6 +92,9 @@ struct BetProfileView: View {
                             Button(action: {
                                 UserDefaultsManager().logout()
                                 betProfileModel.isLogOut = true
+                                if UserDefaultsManager().isGuest() {
+                                    UserDefaultsManager().quitQuest()
+                                }
                             }) {
                                 ZStack {
                                     Rectangle()
@@ -116,30 +121,32 @@ struct BetProfileView: View {
                             
                             Spacer(minLength: 20)
                             
-                            Button(action: {
-                                UserDefaultsManager().deleteAccount()
-                                betProfileModel.isLogOut = true
-                            }) {
-                                ZStack {
-                                    Rectangle()
-                                        .fill(.clear)
-                                        .frame(height: 60)
-                                        .padding(.horizontal, 20)
-                                        .cornerRadius(12)
-                                        .overlay {
-                                            RoundedRectangle(cornerRadius: 12)
-                                                .stroke(Color(red: 236/255, green: 64/255, blue: 30/255), lineWidth: 2)
-                                                .padding(.horizontal, 20)
-                                        }
-                                    
-                                    HStack {
-                                        Image(systemName: "delete.right.fill")
-                                            .resizable()
-                                            .frame(width: 20, height: 16)
-                                            .foregroundStyle(Color(red: 236/255, green: 64/255, blue: 30/255))
+                            if !UserDefaultsManager().isGuest() {
+                                Button(action: {
+                                    UserDefaultsManager().deleteAccount()
+                                    betProfileModel.isLogOut = true
+                                }) {
+                                    ZStack {
+                                        Rectangle()
+                                            .fill(.clear)
+                                            .frame(height: 60)
+                                            .padding(.horizontal, 20)
+                                            .cornerRadius(12)
+                                            .overlay {
+                                                RoundedRectangle(cornerRadius: 12)
+                                                    .stroke(Color(red: 236/255, green: 64/255, blue: 30/255), lineWidth: 2)
+                                                    .padding(.horizontal, 20)
+                                            }
                                         
-                                        Text("Delete Account")
-                                            .Pop(size: 16, color: Color(red: 236/255, green: 64/255, blue: 30/255))
+                                        HStack {
+                                            Image(systemName: "delete.right.fill")
+                                                .resizable()
+                                                .frame(width: 20, height: 16)
+                                                .foregroundStyle(Color(red: 236/255, green: 64/255, blue: 30/255))
+                                            
+                                            Text("Delete Account")
+                                                .Pop(size: 16, color: Color(red: 236/255, green: 64/255, blue: 30/255))
+                                        }
                                     }
                                 }
                             }
