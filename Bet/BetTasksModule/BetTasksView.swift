@@ -31,22 +31,31 @@ struct BetTasksView: View {
                     ScrollView(showsIndicators: false) {
                         ZStack {
                             VStack {
-                                if betTasksModel.tasks.isEmpty {
+                                if UserDefaultsManager().isGuest() {
                                     Spacer(minLength: 40)
                                     
                                     Text("There are no task yet!")
                                         .PopBold(size: 22)
                                     
                                     Spacer(minLength: 20)
-                                    
                                 } else {
-                                    Spacer(minLength: 10)
-                                    
-                                    ForEach(betTasksModel.tasks) { task in
-                                        TaskView(task: task) {
-                                            betTasksModel.deleteTask(task)
+                                    if betTasksModel.tasks.isEmpty {
+                                        Spacer(minLength: 40)
+                                        
+                                        Text("There are no task yet!")
+                                            .PopBold(size: 22)
+                                        
+                                        Spacer(minLength: 20)
+                                        
+                                    } else {
+                                        Spacer(minLength: 10)
+                                        
+                                        ForEach(betTasksModel.tasks) { task in
+                                            TaskView(task: task) {
+                                                betTasksModel.deleteTask(task)
+                                            }
+                                            .padding(.top, 5)
                                         }
-                                        .padding(.top, 5)
                                     }
                                 }
                                 

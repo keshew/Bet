@@ -121,6 +121,8 @@ class UserDefaultsManager: ObservableObject {
     
     func deleteAccount() {
         let defaults = UserDefaults.standard
+        defaults.removeObject(forKey: "tasks")
+          defaults.removeObject(forKey: "events")
         defaults.removeObject(forKey: "users")
         saveLoginStatus(false)
     }

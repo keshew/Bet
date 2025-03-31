@@ -98,47 +98,54 @@ struct BetCalendarView: View {
                                 }
                             }
                             
-                            if betCalendarModel.events2.isEmpty {
+                            if UserDefaultsManager().isGuest() {
                                 NoToday(geometry: geometry, action: {
                                     betCalendarModel.isAdd = true
                                 })
                             } else {
-                                ZStack {
-                                    Rectangle()
-                                        .fill(.white)
-                                        .cornerRadius(geometry.size.height * 0.0283)
-                                    
-                                    VStack {
-                                        HStack {
-                                            Text("Today's Events")
-                                                .PopBold(size: 18)
+                                if betCalendarModel.events2.isEmpty {
+                                    NoToday(geometry: geometry, action: {
+                                        betCalendarModel.isAdd = true
+                                    })
+                                } else {
+                                    ZStack {
+                                        Rectangle()
+                                            .fill(.white)
+                                            .cornerRadius(geometry.size.height * 0.0283)
+                                        
+                                        VStack {
+                                            HStack {
+                                                Text("Today's Events")
+                                                    .PopBold(size: 18)
+                                                
+                                                Spacer()
+                                                
+                                                Button(action: {
+                                                    betCalendarModel.isAdd = true
+                                                }) {
+                                                    Image(.addButton)
+                                                        .resizable()
+                                                        .frame(width: geometry.size.height * 0.0513,
+                                                               height: geometry.size.height * 0.0513)
+                                                }
+                                                .opacity(UserDefaultsManager().isGuest() ? 0.5 : 1)
+                                                .disabled(UserDefaultsManager().isGuest() ? true : false)
+                                            }
+                                            .padding(.horizontal, geometry.size.width * 0.05)
+                                            .padding(.top)
+                                            
+                                            ForEach(betCalendarModel.events2) { event in
+                                                EventOnToday(event: event)
+                                                    .padding(.top, geometry.size.height * 0.0064)
+                                            }
                                             
                                             Spacer()
-                                            
-                                            Button(action: {
-                                                betCalendarModel.isAdd = true
-                                            }) {
-                                                Image(.addButton)
-                                                    .resizable()
-                                                    .frame(width: geometry.size.height * 0.0513,
-                                                           height: geometry.size.height * 0.0513)
-                                            }
-                                            .opacity(UserDefaultsManager().isGuest() ? 0.5 : 1)
-                                            .disabled(UserDefaultsManager().isGuest() ? true : false)
                                         }
-                                        .padding(.horizontal, geometry.size.width * 0.05)
-                                        .padding(.top)
-                                        
-                                        ForEach(betCalendarModel.events2) { event in
-                                            EventOnToday(event: event)
-                                                .padding(.top, geometry.size.height * 0.0064)
-                                        }
-                                        
-                                        Spacer()
                                     }
+                                    .frame(width: geometry.size.width)
                                 }
-                                .frame(width: geometry.size.width)
                             }
+                           
                             
                             Color(.clear)
                                 .frame(height: geometry.size.height * 0.077)
